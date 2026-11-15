@@ -29,7 +29,7 @@
 .members{background:var(--panel);border-left:1px solid var(--line);padding:23px 17px}.member-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.member-head h2{font-size:12px;margin:0}.member-head span{color:var(--muted);font-size:10px}.member-group{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:1px;margin:17px 2px 8px}.member{display:flex;gap:9px;align-items:center;padding:7px 3px}.member .avatar{width:32px;height:32px;border-radius:11px;font-size:11px}.member-name{font-size:11px;font-weight:700}.member-role{font-size:10px;color:var(--muted)}
 .theme-card{margin-top:28px;padding:13px;background:var(--panel2);border:1px solid var(--line);border-radius:12px}.theme-title{font-size:11px;font-weight:750}.theme-hint{font-size:10px;color:var(--muted);margin-top:3px}.color-label{font-size:10px;color:var(--muted);font-weight:700;margin:12px 0 -7px}.color-controls{display:flex;gap:8px;margin-top:12px;align-items:center}.color-well{width:34px;height:32px;border:1px solid #ffffff30;border-radius:9px;padding:3px;background:var(--panel2);overflow:hidden;cursor:pointer}.color-well input{width:100%;height:100%;border:0;padding:0;background:transparent;cursor:pointer}.hex-input{min-width:0;width:1px;flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:7px 8px;font:11px ui-monospace,monospace;outline:none}.hex-input:focus{border-color:var(--accent)}.preset-row{display:flex;gap:7px;margin-top:10px}.swatch{width:20px;height:20px;border-radius:7px;border:2px solid transparent;outline:1px solid #ffffff22;cursor:pointer}.swatch:hover{transform:scale(1.12)}
 .toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,15px);opacity:0;background:#262733;border:1px solid var(--line);padding:9px 14px;border-radius:9px;color:var(--text);font-size:12px;transition:.2s;pointer-events:none;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
-.mobile-menu{display:none}
+.mobile-menu{display:none}\ndialog#themeDialog{width:min(340px,calc(100vw - 28px));border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--text);padding:16px;box-shadow:0 24px 90px #0009}\ndialog#themeDialog::backdrop{background:#05060acc;backdrop-filter:blur(4px)}\ndialog#themeDialog .theme-card{margin:0;border:0;background:transparent;padding:0}.theme-title-row{display:flex;align-items:center;justify-content:space-between}.dialog-close{height:30px;width:30px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--muted);font-size:18px}
 @media(max-width:1100px){.app{grid-template-columns:68px 220px minmax(0,1fr)}.members{display:none}}
 @media(max-width:700px){.app{grid-template-columns:58px minmax(0,1fr)}.rail{padding:13px 6px}.rail-btn,.logo{width:42px;height:42px;border-radius:14px}.servers{display:none}.topbar{height:62px;padding:0 15px}.top-actions .hide-mobile{display:none}.content{padding:18px 13px 13px}.welcome{padding:15px}.welcome-badge{display:none}.msg-text{font-size:12px}.mobile-menu{display:block}.room-desc{display:none}}
 </style>
@@ -74,7 +74,7 @@
   <main class="chat">
     <header class="topbar">
       <div class="room-title"><button class="icon-btn mobile-menu" aria-label="Open channels">☰</button><span class="hash">#</span><span id="roomName">general</span><span class="room-desc">A little corner of the internet to call ours.</span></div>
-      <div class="top-actions"><button class="icon-btn hide-mobile" title="Pinned messages">⌑</button><button class="icon-btn" title="Members">♙</button><button class="icon-btn hide-mobile" title="Search messages">⌕</button></div>
+      <div class="top-actions"><button class="icon-btn" id="themeButton" title="Customize colors" aria-label="Customize colors">🎨</button><button class="icon-btn hide-mobile" title="Pinned messages">⌑</button><button class="icon-btn" title="Members">♙</button><button class="icon-btn hide-mobile" title="Search messages">⌕</button></div>
     </header>
     <section class="content">
       <div class="welcome"><div><h1>Welcome to your cozy corner ✨</h1><p>Good conversations start with a hello. Make yourself at home.</p></div><div class="welcome-badge">✳ &nbsp;a good place to be</div></div>
@@ -96,17 +96,17 @@
     <div class="member"><div class="avatar peach">J</div><div><div class="member-name">jules</div><div class="member-role">making little things</div></div></div>
     <div class="member"><div class="avatar" style="background:linear-gradient(140deg,#dd7f9f,#9b73de)">S</div><div><div class="member-name">sana</div><div class="member-role">playlist curator</div></div></div>
     <div class="member"><div class="avatar" style="background:linear-gradient(140deg,#d5ac59,#c76f55)">A</div><div><div class="member-name">ari</div><div class="member-role">out for a wander</div></div></div>
-    <div class="theme-card">
-      <div class="theme-title">Make it yours 🎨</div><div class="theme-hint">Choose any color or enter a hex code.</div>
+    
+  </aside>
+</div>
+<dialog id="themeDialog" aria-labelledby="themeTitle"><div class="theme-card">
+      <div class="theme-title-row"><div class="theme-title" id="themeTitle">Make it yours 🎨</div><button class="dialog-close" type="button" data-close-theme aria-label="Close appearance settings">×</button></div><div class="theme-hint">Choose any color or enter a hex code.</div>
       <div class="color-label">ACCENT</div>
       <div class="color-controls"><label class="color-well" title="Choose any accent color"><input type="color" id="colorPicker" value="#8b7cff" aria-label="Choose accent color"></label><input class="hex-input" id="hexInput" value="#8b7cff" maxlength="7" aria-label="Accent hex color"></div>
       <div class="preset-row" aria-label="Quick accent color ideas"><button class="swatch" style="background:#8b7cff" data-color="#8b7cff" title="Violet"></button><button class="swatch" style="background:#49b8a5" data-color="#49b8a5" title="Sea glass"></button><button class="swatch" style="background:#ff8b70" data-color="#ff8b70" title="Coral"></button><button class="swatch" style="background:#e9b95f" data-color="#e9b95f" title="Honey"></button><button class="swatch" style="background:#e06caa" data-color="#e06caa" title="Berry"></button></div>
       <div class="color-label">BACKGROUND</div>
       <div class="color-controls"><label class="color-well" title="Choose any background color"><input type="color" id="backgroundPicker" value="#101117" aria-label="Choose background color"></label><input class="hex-input" id="backgroundHex" value="#101117" maxlength="7" aria-label="Background hex color"></div>
-    </div>
-  </aside>
-</div>
-<div class="toast" id="toast" role="status"></div>
+    </div></dialog>\n<div class="toast" id="toast" role="status"></div>
 <script>
 const root=document.documentElement,picker=document.getElementById('colorPicker'),hex=document.getElementById('hexInput'),backgroundPicker=document.getElementById('backgroundPicker'),backgroundHex=document.getElementById('backgroundHex'),toast=document.getElementById('toast');
 function applyColor(value){if(!/^#[0-9a-fA-F]{6}$/.test(value))return;root.style.setProperty('--accent',value);picker.value=value;hex.value=value;localStorage.setItem('visora-accent',value)}
@@ -125,7 +125,7 @@ document.querySelectorAll('.reaction').forEach(b=>b.addEventListener('click',()=
 const input=document.getElementById('messageInput');input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,110)+'px'});
 document.getElementById('composer').addEventListener('submit',e=>{e.preventDefault();const text=input.value.trim();if(!text)return;const article=document.createElement('article');article.className='message';const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='Y';const body=document.createElement('div');const head=document.createElement('div');head.className='msg-head';const name=document.createElement('span');name.className='msg-name';name.textContent='you';const time=document.createElement('span');time.className='msg-time';time.textContent=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});head.append(name,time);const msg=document.createElement('div');msg.className='msg-text';msg.textContent=text;body.append(head,msg);article.append(avatar,body);document.getElementById('messages').append(article);input.value='';input.style.height='';article.scrollIntoView({behavior:'smooth',block:'nearest'})});
 input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('composer').requestSubmit()}});
-document.getElementById('settingsButton').addEventListener('click',()=>document.querySelector('.theme-card').scrollIntoView({behavior:'smooth',block:'center'}));
+const themeDialog=document.getElementById('themeDialog');document.getElementById('themeButton').addEventListener('click',()=>themeDialog.showModal());document.getElementById('settingsButton').addEventListener('click',()=>themeDialog.showModal());document.querySelector('[data-close-theme]').addEventListener('click',()=>themeDialog.close());themeDialog.addEventListener('click',e=>{if(e.target===themeDialog)themeDialog.close()});
 </script>
 </body>
 </html>
