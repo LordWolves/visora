@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101117">
+<title>Visora — your space to talk</title>
+<style>
+:root{color-scheme:dark;--bg:#101117;--panel:#171820;--panel2:#1d1e28;--panel3:#252631;--line:#2b2c38;--text:#f2f1f8;--muted:#9697a8;--accent:#8b7cff;--accent-soft:color-mix(in srgb,var(--accent) 18%,transparent);--green:#55d6a2;--yellow:#f6c96b;--red:#f17d86;--radius:15px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}button{color:inherit;cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:76px 250px minmax(0,1fr) 280px;gap:0}
+.rail{background:#0c0d12;border-right:1px solid var(--line);padding:17px 12px;display:flex;align-items:center;flex-direction:column;gap:12px}
+.logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(145deg,var(--accent),#b779ff);display:grid;place-items:center;font-size:22px;font-weight:900;box-shadow:0 8px 25px color-mix(in srgb,var(--accent) 35%,transparent);margin-bottom:8px}
+.rail-btn{width:46px;height:46px;border:0;border-radius:16px;background:var(--panel2);color:#c1c1cf;font-size:19px;transition:.18s}.rail-btn:hover,.rail-btn.active{border-radius:13px;background:var(--accent);color:#fff;transform:translateY(-1px)}
+.rail-line{width:30px;border-top:1px solid var(--line);margin:2px 0}
+.servers{background:var(--panel);border-right:1px solid var(--line);padding:23px 15px;display:flex;flex-direction:column;min-width:0}
+.brand{font-size:17px;font-weight:800;letter-spacing:-.4px}.brand span{color:var(--accent)}.subtitle{color:var(--muted);font-size:12px;margin-top:3px}
+.search{margin:21px 0 20px;position:relative}.search input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px 10px 34px;outline:none}.search input:focus{border-color:var(--accent)}.search:before{content:"⌕";position:absolute;left:12px;top:7px;font-size:19px;color:var(--muted)}
+.section{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:1.3px;margin:8px 3px 9px}.section button{border:0;background:none;color:var(--muted);font-size:18px;padding:0 4px}.channel-list{display:grid;gap:4px}.channel{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:9px;color:#b1b2c0;cursor:pointer;transition:.15s}.channel:hover{background:#ffffff08;color:var(--text)}.channel.active{background:var(--accent-soft);color:var(--text)}.hash{font-size:18px;color:#7e8091}.channel.active .hash{color:var(--accent)}.channel small{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:20px}.spacer{flex:1}
+.profile{border-top:1px solid var(--line);padding:15px 3px 0;display:flex;align-items:center;gap:10px}.avatar{width:36px;height:36px;border-radius:13px;display:grid;place-items:center;font-weight:750;color:#fff;flex-shrink:0;background:linear-gradient(140deg,#5c9df3,#8c67dc)}.avatar.mint{background:linear-gradient(140deg,#37c8a0,#248da6)}.avatar.peach{background:linear-gradient(140deg,#f0a56e,#ce5f83)}.profile-name{font-size:12px;font-weight:750}.status{font-size:10px;color:var(--green);display:flex;gap:5px;align-items:center}.dot{width:6px;height:6px;background:var(--green);border-radius:50%}
+.chat{min-width:0;display:flex;flex-direction:column;background:radial-gradient(ellipse at 80% -20%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 48%),var(--bg)}
+.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid var(--line);background:#101117cc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:1}.room-title{display:flex;align-items:center;gap:11px;font-weight:750;font-size:15px}.room-title .hash{font-size:22px}.room-desc{color:var(--muted);font-size:11px;font-weight:450;margin-left:1px}.top-actions{display:flex;gap:8px}.icon-btn{height:36px;min-width:36px;border:1px solid var(--line);background:var(--panel);border-radius:10px;color:#bfc0cf}.icon-btn:hover{border-color:var(--accent);color:var(--text)}
+.content{width:min(850px,100%);margin:0 auto;padding:27px 27px 19px;flex:1;display:flex;flex-direction:column}
+.welcome{border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));background:linear-gradient(125deg,var(--accent-soft),#181923 63%);border-radius:16px;padding:19px 20px;margin-bottom:23px;display:flex;align-items:center;justify-content:space-between;gap:16px}.welcome h1{font-size:19px;margin:0 0 4px;letter-spacing:-.45px}.welcome p{color:#afb0be;margin:0;font-size:12px}.welcome-badge{border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:10px;padding:9px 11px;color:var(--accent);background:#10111770;font-size:11px;font-weight:700;white-space:nowrap}
+.day{text-align:center;color:#747688;font-size:10px;font-weight:750;letter-spacing:1px;display:flex;align-items:center;gap:12px;margin:1px 0 17px}.day:before,.day:after{content:"";height:1px;background:var(--line);flex:1}
+.messages{display:grid;gap:17px}.message{display:grid;grid-template-columns:38px minmax(0,1fr);gap:11px;animation:pop .25s ease both}@keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.message .avatar{width:36px;height:36px;border-radius:12px}.msg-head{display:flex;align-items:baseline;gap:8px}.msg-name{font-weight:750;font-size:12px}.msg-time{font-size:10px;color:#77798b}.msg-text{color:#c5c5d0;margin-top:3px;font-size:13px;line-height:1.6}.msg-text a{color:#b6aaff;text-decoration:none}.reaction-row{display:flex;gap:6px;margin-top:7px}.reaction{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:3px 8px;color:#c6c4d5;font-size:11px}.reaction:hover,.reaction.selected{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+.typing{color:var(--muted);font-size:11px;padding:11px 0;min-height:37px}.typing b{color:var(--text)}
+.composer{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:8px;display:flex;align-items:flex-end;gap:8px}.compose-add{border:0;background:none;color:var(--muted);font-size:22px;padding:5px 8px}.composer textarea{flex:1;resize:none;min-height:36px;max-height:110px;background:transparent;color:var(--text);border:0;outline:none;padding:8px 3px;line-height:1.4}.composer textarea::placeholder{color:#707284}.send{height:36px;width:40px;border:0;border-radius:10px;background:var(--accent);color:white;font-size:17px;box-shadow:0 4px 13px color-mix(in srgb,var(--accent) 24%,transparent)}.send:hover{filter:brightness(1.12)}
+.members{background:var(--panel);border-left:1px solid var(--line);padding:23px 17px}.member-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.member-head h2{font-size:12px;margin:0}.member-head span{color:var(--muted);font-size:10px}.member-group{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:1px;margin:17px 2px 8px}.member{display:flex;gap:9px;align-items:center;padding:7px 3px}.member .avatar{width:32px;height:32px;border-radius:11px;font-size:11px}.member-name{font-size:11px;font-weight:700}.member-role{font-size:10px;color:var(--muted)}
+.theme-card{margin-top:28px;padding:13px;background:#101117;border:1px solid var(--line);border-radius:12px}.theme-title{font-size:11px;font-weight:750}.theme-hint{font-size:10px;color:var(--muted);margin-top:3px}.color-controls{display:flex;gap:8px;margin-top:12px;align-items:center}.color-well{width:34px;height:32px;border:1px solid #ffffff30;border-radius:9px;padding:3px;background:var(--panel2);overflow:hidden;cursor:pointer}.color-well input{width:100%;height:100%;border:0;padding:0;background:transparent;cursor:pointer}.hex-input{min-width:0;width:1px;flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:7px 8px;font:11px ui-monospace,monospace;outline:none}.hex-input:focus{border-color:var(--accent)}.preset-row{display:flex;gap:7px;margin-top:10px}.swatch{width:20px;height:20px;border-radius:7px;border:2px solid transparent;outline:1px solid #ffffff22;cursor:pointer}.swatch:hover{transform:scale(1.12)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,15px);opacity:0;background:#262733;border:1px solid var(--line);padding:9px 14px;border-radius:9px;color:var(--text);font-size:12px;transition:.2s;pointer-events:none;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
+.mobile-menu{display:none}
+@media(max-width:1100px){.app{grid-template-columns:68px 220px minmax(0,1fr)}.members{display:none}}
+@media(max-width:700px){.app{grid-template-columns:58px minmax(0,1fr)}.rail{padding:13px 6px}.rail-btn,.logo{width:42px;height:42px;border-radius:14px}.servers{display:none}.topbar{height:62px;padding:0 15px}.top-actions .hide-mobile{display:none}.content{padding:18px 13px 13px}.welcome{padding:15px}.welcome-badge{display:none}.msg-text{font-size:12px}.mobile-menu{display:block}.room-desc{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail" aria-label="Spaces">
+    <div class="logo" title="Visora">V</div>
+    <button class="rail-btn active" title="Home">⌂</button>
+    <button class="rail-btn" title="Messages">✉</button>
+    <button class="rail-btn" title="Discover">⌘</button>
+    <div class="rail-line"></div>
+    <button class="rail-btn" title="Add a space">＋</button>
+    <div class="spacer"></div>
+    <button class="rail-btn" title="Settings" id="settingsButton">⚙</button>
+  </aside>
+  <aside class="servers">
+    <div class="brand">viso<span>ra</span></div>
+    <div class="subtitle">your people, your place</div>
+    <div class="search"><input id="search" placeholder="Find a channel..." aria-label="Find a channel"></div>
+    <div class="section">YOUR SPACES <button title="Add a space">＋</button></div>
+    <div class="channel-list">
+      <div class="channel"><span>✦</span> The Cozy Corner</div>
+      <div class="channel active"><span>✦</span> The Cozy Corner <small>3</small></div>
+    </div>
+    <div class="section" style="margin-top:23px">TEXT CHANNELS <button title="Add a channel">＋</button></div>
+    <div class="channel-list" id="channels">
+      <div class="channel active"><span class="hash">#</span> general</div>
+      <div class="channel"><span class="hash">#</span> introductions</div>
+      <div class="channel"><span class="hash">#</span> creative-corner</div>
+      <div class="channel"><span class="hash">#</span> recommendations</div>
+      <div class="channel"><span class="hash">#</span> off-topic</div>
+    </div>
+    <div class="section" style="margin-top:22px">VOICE HANGOUTS <button title="Add a voice channel">＋</button></div>
+    <div class="channel-list">
+      <div class="channel"><span>◖</span> late night lounge <span style="margin-left:auto;color:var(--green);font-size:10px">2</span></div>
+      <div class="channel"><span>◖</span> music room</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="profile"><div class="avatar">Y</div><div><div class="profile-name">you</div><div class="status"><i class="dot"></i> here for a chat</div></div><button class="icon-btn" style="margin-left:auto;border:0" title="User settings">⚙</button></div>
+  </aside>
+  <main class="chat">
+    <header class="topbar">
+      <div class="room-title"><button class="icon-btn mobile-menu" aria-label="Open channels">☰</button><span class="hash">#</span><span id="roomName">general</span><span class="room-desc">A little corner of the internet to call ours.</span></div>
+      <div class="top-actions"><button class="icon-btn hide-mobile" title="Pinned messages">⌑</button><button class="icon-btn" title="Members">♙</button><button class="icon-btn hide-mobile" title="Search messages">⌕</button></div>
+    </header>
+    <section class="content">
+      <div class="welcome"><div><h1>Welcome to your cozy corner ✨</h1><p>Good conversations start with a hello. Make yourself at home.</p></div><div class="welcome-badge">✳ &nbsp;a good place to be</div></div>
+      <div class="day">TODAY</div>
+      <div class="messages" id="messages">
+        <article class="message"><div class="avatar mint">M</div><div><div class="msg-head"><span class="msg-name">milo</span><span class="msg-time">10:14 AM</span></div><div class="msg-text">morning everyone ☀️ what's one small thing you're looking forward to today?</div><div class="reaction-row"><button class="reaction">☀️ 4</button><button class="reaction">☕ 2</button><button class="reaction">＋</button></div></div></article>
+        <article class="message"><div class="avatar peach">J</div><div><div class="msg-head"><span class="msg-name">jules</span><span class="msg-time">10:18 AM</span></div><div class="msg-text">Finally getting around to that little ceramic kit I bought! I'll share how it turns out 🏺</div></div></article>
+        <article class="message"><div class="avatar" style="background:linear-gradient(140deg,#dd7f9f,#9b73de)">S</div><div><div class="msg-head"><span class="msg-name">sana</span><span class="msg-time">10:21 AM</span></div><div class="msg-text">that sounds lovely! i've been collecting cozy playlists lately — <a href="#" onclick="return false">this one</a> is my current favorite 🎧</div><div class="reaction-row"><button class="reaction">💜 3</button><button class="reaction">🎶 1</button><button class="reaction">＋</button></div></div></article>
+        <article class="message"><div class="avatar" style="background:linear-gradient(140deg,#d5ac59,#c76f55)">A</div><div><div class="msg-head"><span class="msg-name">ari</span><span class="msg-time">10:26 AM</span></div><div class="msg-text">my small thing: a walk with no destination and absolutely no rush 🌿</div></div></article>
+      </div>
+      <div class="typing" id="typing"><b>milo</b> is here with you<span class="dots"> · · ·</span></div>
+      <form class="composer" id="composer"><button class="compose-add" type="button" title="Add attachment">＋</button><textarea id="messageInput" rows="1" placeholder="Message #general" aria-label="Write a message"></textarea><button class="send" aria-label="Send message">➤</button></form>
+    </section>
+  </main>
+  <aside class="members">
+    <div class="member-head"><h2>Here together</h2><span>4 people</span></div>
+    <div class="member-group">ONLINE — 4</div>
+    <div class="member"><div class="avatar mint">M</div><div><div class="member-name">milo</div><div class="member-role">the morning person</div></div></div>
+    <div class="member"><div class="avatar peach">J</div><div><div class="member-name">jules</div><div class="member-role">making little things</div></div></div>
+    <div class="member"><div class="avatar" style="background:linear-gradient(140deg,#dd7f9f,#9b73de)">S</div><div><div class="member-name">sana</div><div class="member-role">playlist curator</div></div></div>
+    <div class="member"><div class="avatar" style="background:linear-gradient(140deg,#d5ac59,#c76f55)">A</div><div><div class="member-name">ari</div><div class="member-role">out for a wander</div></div></div>
+    <div class="theme-card">
+      <div class="theme-title">Make it yours 🎨</div><div class="theme-hint">Pick any color or enter a hex code.</div>
+      <div class="color-controls"><label class="color-well" title="Choose any color"><input type="color" id="colorPicker" value="#8b7cff" aria-label="Choose accent color"></label><input class="hex-input" id="hexInput" value="#8b7cff" maxlength="7" aria-label="Hex color value"></div>
+      <div class="preset-row" aria-label="Quick color ideas"><button class="swatch" style="background:#8b7cff" data-color="#8b7cff" title="Violet"></button><button class="swatch" style="background:#49b8a5" data-color="#49b8a5" title="Sea glass"></button><button class="swatch" style="background:#ff8b70" data-color="#ff8b70" title="Coral"></button><button class="swatch" style="background:#e9b95f" data-color="#e9b95f" title="Honey"></button><button class="swatch" style="background:#e06caa" data-color="#e06caa" title="Berry"></button></div>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const root=document.documentElement,picker=document.getElementById('colorPicker'),hex=document.getElementById('hexInput'),toast=document.getElementById('toast');
+function applyColor(value){if(!/^#[0-9a-fA-F]{6}$/.test(value))return;root.style.setProperty('--accent',value);picker.value=value;hex.value=value;localStorage.setItem('visora-accent',value)}
+const saved=localStorage.getItem('visora-accent');if(saved)applyColor(saved);
+picker.addEventListener('input',()=>applyColor(picker.value));
+hex.addEventListener('input',()=>{if(/^#[0-9a-fA-F]{6}$/.test(hex.value))applyColor(hex.value)});
+document.querySelectorAll('.swatch').forEach(b=>b.addEventListener('click',()=>applyColor(b.dataset.color)));
+let toastTimer;function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1800)}
+document.getElementById('channels').addEventListener('click',e=>{const row=e.target.closest('.channel');if(!row)return;document.querySelectorAll('#channels .channel').forEach(c=>c.classList.remove('active'));row.classList.add('active');const name=row.textContent.replace(/\d/g,'').replace('#','').trim();document.getElementById('roomName').textContent=name;document.getElementById('messageInput').placeholder='Message #'+name});
+document.getElementById('search').addEventListener('input',e=>{const term=e.target.value.toLowerCase();document.querySelectorAll('#channels .channel').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(term)?'flex':'none')});
+document.querySelectorAll('.reaction').forEach(b=>b.addEventListener('click',()=>{if(b.textContent.trim()==='＋'){showToast('Reactions are ready for your next hello');return}b.classList.toggle('selected')}));
+const input=document.getElementById('messageInput');input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,110)+'px'});
+document.getElementById('composer').addEventListener('submit',e=>{e.preventDefault();const text=input.value.trim();if(!text)return;const article=document.createElement('article');article.className='message';const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='Y';const body=document.createElement('div');const head=document.createElement('div');head.className='msg-head';const name=document.createElement('span');name.className='msg-name';name.textContent='you';const time=document.createElement('span');time.className='msg-time';time.textContent=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});head.append(name,time);const msg=document.createElement('div');msg.className='msg-text';msg.textContent=text;body.append(head,msg);article.append(avatar,body);document.getElementById('messages').append(article);input.value='';input.style.height='';article.scrollIntoView({behavior:'smooth',block:'nearest'})});
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('composer').requestSubmit()}});
+document.getElementById('settingsButton').addEventListener('click',()=>document.querySelector('.theme-card').scrollIntoView({behavior:'smooth',block:'center'}));
+</script>
+</body>
+</html>
